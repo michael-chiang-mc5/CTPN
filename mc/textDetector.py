@@ -21,15 +21,16 @@ text_proposals_detector=TextProposalDetector(CaffeModel(NET_DEF_FILE, MODEL_FILE
 text_detector=TextDetector(text_proposals_detector)
 
 interface_url = "http://104.131.145.75/"
-metadata = interface_url + "ImagePicker/listTextDetectorMetadata/"
+metadata = interface_url + "ImagePicker/list_CTPN_metadata/"
 data = urllib.urlopen(metadata)
-#data = ['81\thttp://104.131.145.75/media/81.jpg']
+#data = ['http://104.131.145.75/media/81.jpg']
 
 for line in data: # each line is pk, image_url
     line = line.decode("utf-8").split('\t')
     pk=line[0]
+    print line
     image_url = line[1]
-    image_save_path = "/home/ubuntu/CTPN/tools/deleteMe.jpg" # must be absolute path TODO
+    image_save_path = "deleteMe.jpg" # must be absolute path TODO
     urllib.urlretrieve(image_url, image_save_path)
 
     # run text detection

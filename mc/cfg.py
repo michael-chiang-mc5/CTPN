@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# MUST be imported first
-=======
-# MUST be imported firstly
->>>>>>> 510ef4a828eb89f43ae812ea60e9bc05755c3e37
 import sys
 import numpy as np
 
