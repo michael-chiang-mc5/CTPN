@@ -54,9 +54,11 @@ for line in data: # each line is pk, image_url
 
     # post to interface
     payload = {'pk':pk, 'box':text_lines.tolist(), 'method':'CTPN'}
+    print(payload)
     post_url = interface_url + "ImagePicker/postBoundingBox/"
     r = requests.post(post_url, data={'json-str':json.dumps(payload)})
-    #text_file = open("/Users/michaelchiang/Desktop/deleteMe.html", "w")
+    #print(r.text)
+    #text_file = open("deleteMe.html", "w")
     #text_file.write(r.text)
     #text_file.close()
 
