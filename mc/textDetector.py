@@ -1,6 +1,5 @@
 import urllib
 import requests, json
-
 from cfg import Config as cfg
 from other import draw_boxes, resize_im, CaffeModel
 import cv2, os, caffe, sys
@@ -21,15 +20,18 @@ text_proposals_detector=TextProposalDetector(CaffeModel(NET_DEF_FILE, MODEL_FILE
 text_detector=TextDetector(text_proposals_detector)
 
 interface_url = "http://104.131.145.75/"
-metadata = interface_url + "ImagePicker/list_CTPN_metadata/"
-data = urllib.urlopen(metadata)
-#data = ['http://104.131.145.75/media/81.jpg']
 
-for line in data: # each line is pk, image_url
-    line = line.decode("utf-8").split('\t')
-    pk=line[0]
-    print line
-    image_url = line[1]
+while(1):
+    response = urllib.urlopen(interface_url+"ImagePicker/list_CTPN_metadata/")
+    try:
+        data = json.loads(response.read())
+    except:
+        print("no more")
+        break
+    print(data)
+    pk = int(data['pk'])
+    image_url = data['url']
+        
     image_save_path = "deleteMe.jpg" # must be absolute path TODO
     urllib.urlretrieve(image_url, image_save_path)
 
@@ -57,6 +59,12 @@ for line in data: # each line is pk, image_url
     print(payload)
     post_url = interface_url + "ImagePicker/postBoundingBox/"
     r = requests.post(post_url, data={'json-str':json.dumps(payload)})
+
+    payload = {'pk':pk,'pending':False}
+    post_url = interface_url + "ImagePicker/set_image_pending/"
+    r = requests.post(post_url, data={'json-str':json.dumps(payload)})
+
+
     #print(r.text)
     #text_file = open("deleteMe.html", "w")
     #text_file.write(r.text)
